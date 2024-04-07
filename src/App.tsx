@@ -1,8 +1,8 @@
 function App() {
   return (
     <>
-      <div className="bg-gradient-to-b from-slate-300 to-slate-900 w-screen h-screen">
-        <h1 className="underline text-3xl  text-sky-500 font-bold">
+      <div className="h-screen w-screen bg-gradient-to-b from-slate-300 to-slate-900">
+        <h1 className="text-3xl font-bold  text-sky-500 underline">
           Hello world!
         </h1>
       </div>
