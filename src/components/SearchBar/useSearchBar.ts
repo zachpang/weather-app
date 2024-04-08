@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CoordinateData, fetchCoordinates } from "../../api";
+import { CoordinateData, fetchCoordinatesForCity } from "../../api";
 
 function useSearchBar() {
   const [value, setValue] = useState<string>("");
@@ -16,7 +16,7 @@ function useSearchBar() {
 
     let coordinateData: CoordinateData[] | null = null;
     try {
-      coordinateData = await fetchCoordinates(value, 1);
+      coordinateData = await fetchCoordinatesForCity(value, 1);
       console.log(coordinateData);
     } catch (error) {
       setErrorMessage((error as Error).message);

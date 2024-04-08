@@ -38,13 +38,14 @@ export interface CoordinateData {
   state?: string;
 }
 
-export async function fetchCoordinates(location: string, limit: number) {
+// TODO: handle country code
+export async function fetchCoordinatesForCity(city: string, limit: number) {
   const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
   let response = null;
   try {
     response = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${String(limit)}&appid=${apiKey}`,
+      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=${String(limit)}&appid=${apiKey}`,
     );
   } catch (error) {
     // bad request headers or network error.
