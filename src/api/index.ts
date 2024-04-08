@@ -28,9 +28,23 @@ export interface CoordinateData {
 
 // TODO: handle country code
 export async function fetchCoordinatesForCity(city: string, limit: number) {
-  return await fetchHandler<CoordinateData[]>(
+  const coordinateDataArr = await fetchHandler<CoordinateData[]>(
     `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=${String(limit)}&appid=${API_KEY}`,
   );
+
+  return coordinateDataArr.map(transformToCoordinate);
+}
+
+export interface Coordinate {
+  city: string;
+  lat: number;
+  lon: number;
+  countryCode: string;
+}
+
+function transformToCoordinate(coordinateData: CoordinateData): Coordinate {
+  const { name, lat, lon, country } = coordinateData;
+  return { city: name, lat, lon, countryCode: country };
 }
 
 /* 
@@ -90,9 +104,66 @@ export async function fetchCurrentWeatherForCoordinates(
   lat: number,
   lon: number,
 ) {
-  return await fetchHandler<WeatherData>(
+  const weatherData = await fetchHandler<WeatherData>(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`,
   );
+
+  return transformToWeather(weatherData);
+}
+
+export interface Weather {
+  city: string;
+  lat: number;
+  lon: number;
+  weatherId: number;
+  weatherMain: string;
+  weatherDescription: string;
+  temp: string;
+  tempMax: string;
+  tempMin: string;
+  pressure: string;
+  humidity: string;
+  dateTime: string;
+}
+
+function transformToWeather(weatherData: WeatherData): Weather {
+  const {
+    name,
+    coord: { lat, lon },
+    weather,
+    main: { temp, temp_min, temp_max, humidity, pressure },
+  } = weatherData;
+
+  // Assume the first object is the most relevant, even though there can be multiple possible weather states at the current moment
+  const { id, main, description } = weather[0];
+
+  const date = new Date();
+  const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+    weekday: "short",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+  });
+
+  return {
+    city: name,
+    lat,
+    lon,
+    weatherId: id,
+    weatherMain: main,
+    weatherDescription:
+      description.slice(0, 1).toUpperCase() + description.slice(1),
+    temp: String(temp) + "°",
+    tempMax: String(temp_max) + "°",
+    tempMin: String(temp_min) + "°",
+    pressure: String(pressure),
+    humidity: String(humidity) + "%",
+    dateTime: dateFormatter.format(date),
+  };
 }
 
 async function fetchHandler<TData>(url: string) {

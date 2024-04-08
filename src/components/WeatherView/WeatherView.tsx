@@ -1,28 +1,31 @@
-import { GlobeAltIcon, MapPinIcon } from "@heroicons/react/24/outline";
-import { CoordinateData, WeatherData } from "../../api";
+import { GlobeAsiaAustraliaIcon } from "@heroicons/react/24/outline";
+import { Coordinate, Weather } from "../../api";
 
 interface WeatherViewProps {
-  coordinateData: CoordinateData | null;
-  weatherData: WeatherData | null;
+  coordinate: Coordinate | null;
+  weather: Weather | null;
   error: string;
   isFetching: boolean;
 }
 
 function WeatherView({
-  coordinateData,
-  weatherData,
+  coordinate,
+  weather,
   error,
   isFetching,
 }: WeatherViewProps) {
-  const hasNoData = coordinateData === null || weatherData === null;
+  const hasNoData = coordinate === null || weather === null;
 
   return (
     <div className="h-full rounded-xl border-0 bg-white p-8 text-gray-900 opacity-50">
       {hasNoData && (
         <SearchPrompt
           title="To begin, search a city or country for the current weather."
-          icon={<MapPinIcon />}
+          icon={<GlobeAsiaAustraliaIcon className="stroke-[0.5px]" />}
         />
+      )}
+      {!hasNoData && (
+        <WeatherDetails coordinate={coordinate} weather={weather} />
       )}
     </div>
   );
@@ -39,6 +42,60 @@ function SearchPrompt({
     <div className="flex h-full flex-col items-center justify-center gap-y-8">
       <div className="text-3xl">{title}</div>
       <div className="size-1/3">{icon}</div>
+    </div>
+  );
+}
+
+interface WeatherDetailsProps {
+  coordinate: Coordinate;
+  weather: Weather;
+}
+
+function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
+  const { city, countryCode } = coordinate;
+  const {
+    weatherMain,
+    weatherDescription,
+    temp,
+    tempMax,
+    tempMin,
+    humidity,
+    dateTime,
+  } = weather;
+  const header = "Today's Weather";
+
+  return (
+    <div className="relative">
+      <div className="flex flex-row sm:flex-col">
+        <div className="flex">
+          <div>
+            <span>{header}</span>
+            <span>{temp}</span>
+            <span>
+              {tempMax} {tempMin}
+            </span>
+            <span className="sm:hidden">
+              {city}, {countryCode}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex justify-between">
+          <span className="hidden sm:inline">
+            {city}, {countryCode}
+          </span>
+          <span>
+            {/* todo: format */}
+            {dateTime}
+          </span>
+          <span>Humidity: {humidity}</span>
+          <span>{weatherDescription}</span>
+        </div>
+      </div>
+
+      <div className="absolute">
+        {/* display corresponding weather image asset here. position absolute */}
+      </div>
     </div>
   );
 }

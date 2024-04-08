@@ -8,8 +8,8 @@ function App() {
     handleSubmit,
     error,
     isFetching,
-    coordinateData,
-    weatherData,
+    coordinate,
+    weather,
   } = useSearchBar();
 
   return (
@@ -25,8 +25,8 @@ function App() {
           </header>
           <main className="flex-1">
             <WeatherView
-              weatherData={weatherData}
-              coordinateData={coordinateData}
+              weather={weather}
+              coordinate={coordinate}
               error={error}
               isFetching={isFetching}
             />
