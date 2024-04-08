@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
-  CoordinateData,
-  WeatherData,
+  Coordinate,
+  Weather,
   fetchCoordinatesForCity,
   fetchCurrentWeatherForCoordinates,
 } from "../../api";
@@ -11,10 +11,8 @@ function useSearchBar() {
   const [value, setValue] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [coordinateData, setCoordinateData] = useState<CoordinateData | null>(
-    null,
-  );
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
+  const [weather, setWeather] = useState<Weather | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -22,8 +20,8 @@ function useSearchBar() {
 
   const resetStates = () => {
     setErrorMessage("");
-    setCoordinateData(null);
-    setWeatherData(null);
+    setCoordinate(null);
+    setWeather(null);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -40,11 +38,11 @@ function useSearchBar() {
         );
       }
 
-      setCoordinateData(coordinates[0]);
+      setCoordinate(coordinates[0]);
       const { lat, lon } = coordinates[0];
 
-      const weatherData = await fetchCurrentWeatherForCoordinates(lat, lon);
-      setWeatherData(weatherData);
+      const weather = await fetchCurrentWeatherForCoordinates(lat, lon);
+      setWeather(weather);
     } catch (error) {
       setErrorMessage((error as Error).message);
     }
@@ -58,8 +56,8 @@ function useSearchBar() {
     handleSubmit,
     error: errorMessage,
     isFetching,
-    coordinateData,
-    weatherData,
+    coordinate,
+    weather,
   };
 }
 
