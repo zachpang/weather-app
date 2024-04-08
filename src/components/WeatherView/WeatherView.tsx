@@ -1,5 +1,6 @@
 import { GlobeAsiaAustraliaIcon } from "@heroicons/react/24/outline";
 import { Coordinate, Weather } from "../../api";
+import WeatherIndicator from "./WeatherIndicator";
 
 interface WeatherViewProps {
   coordinate: Coordinate | null;
@@ -54,6 +55,7 @@ interface WeatherDetailsProps {
 function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
   const { city, countryCode } = coordinate;
   const {
+    weatherId,
     weatherMain,
     weatherDescription,
     temp,
@@ -69,7 +71,7 @@ function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
       <div className="flex flex-row justify-between md:flex-col">
         <div className="text-primary flex flex-col font-semibold">
           <span>{header}</span>
-          <span className="text-8xl">{temp}</span>
+          <span className="text-7xl sm:text-8xl">{temp}</span>
           <span>
             H: {tempMax} L: {tempMin}
           </span>
@@ -79,6 +81,9 @@ function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
         </div>
 
         <div className="text-secondary flex flex-col items-end justify-end leading-[1.75] md:flex-row-reverse md:justify-between">
+          <div className="w-36 sm:hidden">
+            <WeatherIndicator weatherId={weatherId} />
+          </div>
           <span>{weatherDescription}</span>
           <span>Humidity: {humidity}</span>
           <span>
@@ -91,8 +96,8 @@ function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
         </div>
       </div>
 
-      <div className="absolute">
-        {/* display corresponding weather image asset here. position absolute */}
+      <div className="absolute hidden sm:-right-5 sm:-top-2/3 sm:block sm:w-[45%] md:w-[47%] lg:w-[330px]">
+        <WeatherIndicator weatherId={weatherId} />
       </div>
     </div>
   );
