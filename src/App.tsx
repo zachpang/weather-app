@@ -1,5 +1,5 @@
 import SearchBar, { useSearchBar } from "./components/SearchBar";
-import SearchHistory from "./components/SearchHistory";
+import SearchHistory, { useSearchHistory } from "./components/SearchHistory";
 import WeatherView from "./components/WeatherView";
 
 function App() {
@@ -12,6 +12,8 @@ function App() {
     coordinate,
     weather,
   } = useSearchBar();
+
+  const { items } = useSearchHistory();
 
   return (
     <>
@@ -32,7 +34,7 @@ function App() {
                 error={error}
                 isFetching={isFetching}
               />
-              <SearchHistory />
+              <SearchHistory items={items} />
             </div>
           </main>
         </div>

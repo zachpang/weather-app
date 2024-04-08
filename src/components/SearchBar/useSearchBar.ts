@@ -5,14 +5,26 @@ import {
   fetchCoordinatesForCity,
   fetchCurrentWeatherForCoordinates,
 } from "../../api";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import {
+  SEARCH_HISTORY_ITEMS_KEY,
+  SearchHistoryItem,
+} from "../SearchHistory/useSearchHistory";
 
 // TODO: decouple responsibilities in hook: SearchBar state, query state, data store
 function useSearchBar() {
   const [value, setValue] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isFetching, setIsFetching] = useState<boolean>(false);
+
+  // TODO: move state to App.tsx
   const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
   const [weather, setWeather] = useState<Weather | null>(null);
+
+  const [items, setItems] = useLocalStorage<SearchHistoryItem[]>(
+    SEARCH_HISTORY_ITEMS_KEY,
+    [],
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -43,6 +55,14 @@ function useSearchBar() {
 
       const weather = await fetchCurrentWeatherForCoordinates(lat, lon);
       setWeather(weather);
+
+      // write to localStorage
+      const item: SearchHistoryItem = {
+        id: items.length,
+        coordinate: coordinates[0],
+        weather,
+      };
+      setItems([...items, item]);
     } catch (error) {
       setErrorMessage((error as Error).message);
     }
