@@ -138,7 +138,7 @@ function transformToWeather(weatherData: WeatherData): Weather {
   const { id, main, description } = weather[0];
 
   const date = new Date();
-  const dateFormatter = new Intl.DateTimeFormat("en", {
+  const dateFormatter = new Intl.DateTimeFormat("en-SG", {
     dateStyle: "medium",
     timeStyle: "short",
   });
