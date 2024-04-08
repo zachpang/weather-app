@@ -66,30 +66,28 @@ function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
 
   return (
     <div className="relative">
-      <div className="flex flex-row sm:flex-col">
-        <div className="flex">
-          <div>
-            <span>{header}</span>
-            <span>{temp}</span>
-            <span>
-              {tempMax} {tempMin}
-            </span>
-            <span className="sm:hidden">
-              {city}, {countryCode}
-            </span>
-          </div>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="hidden sm:inline">
+      <div className="flex flex-row justify-between md:flex-col">
+        <div className="text-primary flex flex-col font-semibold">
+          <span>{header}</span>
+          <span className="text-8xl">{temp}</span>
+          <span>
+            H: {tempMax} L: {tempMin}
+          </span>
+          <span className="text-secondary md:hidden">
             {city}, {countryCode}
           </span>
+        </div>
+
+        <div className="text-secondary flex flex-col items-end justify-end leading-[1.75] md:flex-row-reverse md:justify-between">
+          <span>{weatherDescription}</span>
+          <span>Humidity: {humidity}</span>
           <span>
             {/* todo: format */}
             {dateTime}
           </span>
-          <span>Humidity: {humidity}</span>
-          <span>{weatherDescription}</span>
+          <span className="hidden font-semibold md:inline">
+            {city}, {countryCode}
+          </span>
         </div>
       </div>
 

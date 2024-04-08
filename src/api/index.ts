@@ -138,15 +138,9 @@ function transformToWeather(weatherData: WeatherData): Weather {
   const { id, main, description } = weather[0];
 
   const date = new Date();
-  const dateFormatter = new Intl.DateTimeFormat("en-GB", {
-    weekday: "short",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    timeZoneName: "short",
+  const dateFormatter = new Intl.DateTimeFormat("en", {
+    dateStyle: "medium",
+    timeStyle: "short",
   });
 
   return {
@@ -157,11 +151,11 @@ function transformToWeather(weatherData: WeatherData): Weather {
     weatherMain: main,
     weatherDescription:
       description.slice(0, 1).toUpperCase() + description.slice(1),
-    temp: String(temp) + "°",
-    tempMax: String(temp_max) + "°",
-    tempMin: String(temp_min) + "°",
-    pressure: String(pressure),
-    humidity: String(humidity) + "%",
+    temp: String(Math.round(temp)) + "°",
+    tempMax: String(Math.round(temp_max)) + "°",
+    tempMin: String(Math.round(temp_min)) + "°",
+    pressure: String(Math.round(pressure)),
+    humidity: String(Math.round(humidity)) + "%",
     dateTime: dateFormatter.format(date),
   };
 }
