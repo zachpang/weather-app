@@ -45,7 +45,7 @@ function useWeatherQuery(
 
       // write to localStorage
       const item: SearchHistoryItem = {
-        id: items.length,
+        id: items.length ? items[0].id + 1 : 0,
         coordinate: coordinates[0],
         weather,
       };
