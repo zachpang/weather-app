@@ -1,4 +1,5 @@
 import SearchBar, { useSearchBar } from "./components/SearchBar";
+import SearchHistory from "./components/SearchHistory";
 import WeatherView from "./components/WeatherView";
 
 function App() {
@@ -23,13 +24,16 @@ function App() {
               onSubmit={handleSubmit}
             />
           </header>
-          <main className="flex-1">
-            <WeatherView
-              weather={weather}
-              coordinate={coordinate}
-              error={error}
-              isFetching={isFetching}
-            />
+          <main className="bg-white-alpha-50 flex-1 rounded-xl border-0 p-8">
+            <div className="flex h-full flex-col gap-y-4">
+              <WeatherView
+                weather={weather}
+                coordinate={coordinate}
+                error={error}
+                isFetching={isFetching}
+              />
+              <SearchHistory />
+            </div>
           </main>
         </div>
       </div>
