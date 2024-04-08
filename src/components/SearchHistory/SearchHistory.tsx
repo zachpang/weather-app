@@ -28,8 +28,8 @@ interface ItemProps {
 
 function Item({ city, countryCode, dateTime }: ItemProps) {
   return (
-    <div className="bg-white-alpha-50 text-primary flex justify-between rounded-xl border-0 p-4">
-      <span>
+    <div className="bg-white-alpha-50 text-primary my-4 flex justify-between rounded-xl border-0 p-4">
+      <span className="font-medium">
         {city}, {countryCode}
       </span>
       <span>{dateTime}</span>

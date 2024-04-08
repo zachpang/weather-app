@@ -10,7 +10,7 @@ export default {
         primary: colors.slate[700],
         secondary: colors.zinc[500],
         "theme-color": "#4CA1AF",
-        "white-alpha-50": "rgba(255, 255, 255, 0.5)",
+        "white-alpha-50": "rgba(255, 255, 255, 0.3)",
       },
     },
   },
