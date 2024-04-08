@@ -23,6 +23,7 @@ function useWeatherQuery(
     setWeather(null);
   };
 
+  // TODO: performSearch needs to be able to handle city, countryCode
   const performSearch = async (city: string) => {
     resetStates();
     setIsFetching(true);

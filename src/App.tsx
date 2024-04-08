@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SearchBar, { useSearchBar } from "./components/SearchBar";
-import SearchHistory from "./components/SearchHistory";
+import SearchHistory, { useSearchHistory } from "./components/SearchHistory";
 import WeatherView from "./components/WeatherView";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { Coordinate, Weather } from "./api";
@@ -29,6 +29,11 @@ function App() {
   );
 
   const { value, handleChange, handleSubmit } = useSearchBar(performSearch);
+  const { handleViewItem, handleDeleteItem } = useSearchHistory(
+    items,
+    setItems,
+    performSearch,
+  );
 
   return (
     <>
@@ -51,9 +56,8 @@ function App() {
               />
               <SearchHistory
                 items={items}
-                setItems={setItems}
-                setCoordinate={setCoordinate}
-                setWeather={setWeather}
+                onViewItem={handleViewItem}
+                onDeleteItem={handleDeleteItem}
               />
             </div>
           </main>
