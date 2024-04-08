@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   Coordinate,
   Weather,
@@ -10,15 +10,13 @@ import { SearchHistoryItem } from "../SearchHistory/useSearchHistory";
 // TODO: decouple responsibilities in hook: SearchBar state, query state, data store
 function useSearchBar(
   items: SearchHistoryItem[],
-  setItems: React.Dispatch<React.SetStateAction<SearchHistoryItem[]>>,
+  setItems: Dispatch<SetStateAction<SearchHistoryItem[]>>,
+  setCoordinate: Dispatch<React.SetStateAction<Coordinate | null>>,
+  setWeather: Dispatch<React.SetStateAction<Weather | null>>,
 ) {
   const [value, setValue] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isFetching, setIsFetching] = useState<boolean>(false);
-
-  // TODO: move state to App.tsx
-  const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
-  const [weather, setWeather] = useState<Weather | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -56,7 +54,7 @@ function useSearchBar(
         coordinate: coordinates[0],
         weather,
       };
-      setItems([...items, item]);
+      setItems([item, ...items]); // latest item on top
     } catch (error) {
       setErrorMessage((error as Error).message);
     }
@@ -70,8 +68,6 @@ function useSearchBar(
     handleSubmit,
     error: errorMessage,
     isFetching,
-    coordinate,
-    weather,
   };
 }
 

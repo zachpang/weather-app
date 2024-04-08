@@ -1,8 +1,10 @@
+import { useState } from "react";
 import SearchBar, { useSearchBar } from "./components/SearchBar";
 import SearchHistory, { useSearchHistory } from "./components/SearchHistory";
 import { SearchHistoryItem } from "./components/SearchHistory/useSearchHistory";
 import WeatherView from "./components/WeatherView";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { Coordinate, Weather } from "./api";
 
 function App() {
   const [items, setItems] = useLocalStorage<SearchHistoryItem[]>(
@@ -10,15 +12,16 @@ function App() {
     [],
   );
 
-  const {
-    value,
-    handleChange,
-    handleSubmit,
-    error,
-    isFetching,
-    coordinate,
-    weather,
-  } = useSearchBar(items, setItems);
+  // Data objects used in WeatherView
+  const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
+  const [weather, setWeather] = useState<Weather | null>(null);
+
+  const { value, handleChange, handleSubmit, error, isFetching } = useSearchBar(
+    items,
+    setItems,
+    setCoordinate,
+    setWeather,
+  );
 
   // const { items } = useSearchHistory(items, setItems);
 
