@@ -5,6 +5,7 @@ import WeatherView from "./components/WeatherView";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { Coordinate, Weather } from "./api";
 import { SearchHistoryItem } from "./components/SearchHistory/SearchHistory";
+import useWeatherQuery from "./api/useWeatherQuery";
 
 function App() {
   const [items, setItems] = useLocalStorage<SearchHistoryItem[]>(
@@ -20,12 +21,14 @@ function App() {
     return items.length ? items[0].weather : null;
   });
 
-  const { value, handleChange, handleSubmit, error, isFetching } = useSearchBar(
+  const { performSearch, error, isFetching } = useWeatherQuery(
     items,
     setItems,
     setCoordinate,
     setWeather,
   );
+
+  const { value, handleChange, handleSubmit } = useSearchBar(performSearch);
 
   return (
     <>
