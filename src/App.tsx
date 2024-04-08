@@ -1,8 +1,15 @@
 import SearchBar, { useSearchBar } from "./components/SearchBar";
 import SearchHistory, { useSearchHistory } from "./components/SearchHistory";
+import { SearchHistoryItem } from "./components/SearchHistory/useSearchHistory";
 import WeatherView from "./components/WeatherView";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
+  const [items, setItems] = useLocalStorage<SearchHistoryItem[]>(
+    "searchHistoryItems",
+    [],
+  );
+
   const {
     value,
     handleChange,
@@ -11,9 +18,9 @@ function App() {
     isFetching,
     coordinate,
     weather,
-  } = useSearchBar();
+  } = useSearchBar(items, setItems);
 
-  const { items } = useSearchHistory();
+  // const { items } = useSearchHistory(items, setItems);
 
   return (
     <>

@@ -5,14 +5,13 @@ import {
   fetchCoordinatesForCity,
   fetchCurrentWeatherForCoordinates,
 } from "../../api";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import {
-  SEARCH_HISTORY_ITEMS_KEY,
-  SearchHistoryItem,
-} from "../SearchHistory/useSearchHistory";
+import { SearchHistoryItem } from "../SearchHistory/useSearchHistory";
 
 // TODO: decouple responsibilities in hook: SearchBar state, query state, data store
-function useSearchBar() {
+function useSearchBar(
+  items: SearchHistoryItem[],
+  setItems: React.Dispatch<React.SetStateAction<SearchHistoryItem[]>>,
+) {
   const [value, setValue] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -20,11 +19,6 @@ function useSearchBar() {
   // TODO: move state to App.tsx
   const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
   const [weather, setWeather] = useState<Weather | null>(null);
-
-  const [items, setItems] = useLocalStorage<SearchHistoryItem[]>(
-    SEARCH_HISTORY_ITEMS_KEY,
-    [],
-  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
