@@ -16,6 +16,8 @@ function SearchBar({ value, onChange, onSubmit, className }: SearchBarProps) {
           type="text"
           name="search-value"
           placeholder="Search for a city or country"
+          value={value}
+          onChange={onChange}
         />
         <button
           className="h-[42px] w-[42px] flex-none rounded-xl border-0 bg-[#4CA1AF] transition-transform hover:scale-105 active:scale-95"
