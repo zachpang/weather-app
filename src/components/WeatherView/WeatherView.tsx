@@ -17,7 +17,7 @@ function WeatherView({
   const hasNoData = coordinate === null || weather === null;
 
   return (
-    <div className="h-full rounded-xl border-0 bg-white p-8 text-gray-900 opacity-50">
+    <div className="text-secondary bg-white-alpha-50 h-full rounded-xl border-0 p-8">
       {hasNoData && (
         <SearchPrompt
           title="To begin, search a city or country for the current weather."
