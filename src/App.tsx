@@ -13,8 +13,12 @@ function App() {
   );
 
   // Data objects used in WeatherView
-  const [coordinate, setCoordinate] = useState<Coordinate | null>(null);
-  const [weather, setWeather] = useState<Weather | null>(null);
+  const [coordinate, setCoordinate] = useState<Coordinate | null>(() => {
+    return items.length ? items[0].coordinate : null;
+  });
+  const [weather, setWeather] = useState<Weather | null>(() => {
+    return items.length ? items[0].weather : null;
+  });
 
   const { value, handleChange, handleSubmit, error, isFetching } = useSearchBar(
     items,
