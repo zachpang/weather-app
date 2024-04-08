@@ -20,8 +20,15 @@ function useSearchBar() {
     setValue(event.target.value);
   };
 
+  const resetStates = () => {
+    setErrorMessage("");
+    setCoordinateData(null);
+    setWeatherData(null);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    resetStates();
     setIsFetching(true);
 
     try {
