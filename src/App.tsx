@@ -1,10 +1,10 @@
 import { useState } from "react";
 import SearchBar, { useSearchBar } from "./components/SearchBar";
-import SearchHistory, { useSearchHistory } from "./components/SearchHistory";
-import { SearchHistoryItem } from "./components/SearchHistory/useSearchHistory";
+import SearchHistory from "./components/SearchHistory";
 import WeatherView from "./components/WeatherView";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { Coordinate, Weather } from "./api";
+import { SearchHistoryItem } from "./components/SearchHistory/SearchHistory";
 
 function App() {
   const [items, setItems] = useLocalStorage<SearchHistoryItem[]>(
@@ -27,8 +27,6 @@ function App() {
     setWeather,
   );
 
-  // const { items } = useSearchHistory(items, setItems);
-
   return (
     <>
       <div className="h-screen w-screen bg-gradient-to-tr from-[#4CA1AF] to-[#C4E0E5] to-60%">
@@ -48,7 +46,12 @@ function App() {
                 error={error}
                 isFetching={isFetching}
               />
-              <SearchHistory items={items} />
+              <SearchHistory
+                items={items}
+                setItems={setItems}
+                setCoordinate={setCoordinate}
+                setWeather={setWeather}
+              />
             </div>
           </main>
         </div>

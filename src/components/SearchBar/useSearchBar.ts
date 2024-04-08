@@ -5,14 +5,14 @@ import {
   fetchCoordinatesForCity,
   fetchCurrentWeatherForCoordinates,
 } from "../../api";
-import { SearchHistoryItem } from "../SearchHistory/useSearchHistory";
+import { SearchHistoryItem } from "../SearchHistory/SearchHistory";
 
-// TODO: decouple responsibilities in hook: SearchBar state, query state, data store
+// TODO: decouple responsibilities in hook: SearchBar state, query state
 function useSearchBar(
   items: SearchHistoryItem[],
   setItems: Dispatch<SetStateAction<SearchHistoryItem[]>>,
-  setCoordinate: Dispatch<React.SetStateAction<Coordinate | null>>,
-  setWeather: Dispatch<React.SetStateAction<Weather | null>>,
+  setCoordinate: Dispatch<SetStateAction<Coordinate | null>>,
+  setWeather: Dispatch<SetStateAction<Weather | null>>,
 ) {
   const [value, setValue] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
