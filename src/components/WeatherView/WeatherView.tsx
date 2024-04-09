@@ -56,7 +56,6 @@ function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
   const { city, countryCode } = coordinate;
   const {
     weatherId,
-    weatherMain,
     weatherDescription,
     temp,
     tempMax,
@@ -69,7 +68,7 @@ function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
   return (
     <div className="relative">
       <div className="flex flex-row justify-between md:flex-col">
-        <div className="text-primary flex flex-col font-semibold">
+        <div className="flex flex-col font-semibold text-primary">
           <span>{header}</span>
           <span className="text-7xl sm:text-8xl">{temp}</span>
           <span>
@@ -80,8 +79,8 @@ function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
           </span>
         </div>
 
-        <div className="text-secondary flex flex-col items-end justify-end leading-[1.75] md:flex-row-reverse md:justify-between">
-          <div className="w-36 sm:hidden">
+        <div className="flex flex-col items-end justify-end leading-[1.75] text-secondary md:flex-row-reverse md:justify-between">
+          <div className="w-32 sm:hidden">
             <WeatherIndicator weatherId={weatherId} />
           </div>
           <span>{weatherDescription}</span>
@@ -96,7 +95,7 @@ function WeatherDetails({ coordinate, weather }: WeatherDetailsProps) {
         </div>
       </div>
 
-      <div className="absolute hidden sm:-right-5 sm:-top-2/3 sm:block sm:w-[45%] md:w-[47%] lg:w-[330px]">
+      <div className="absolute hidden sm:-right-5 sm:-top-2/3 sm:block sm:w-[42%] md:w-[44%] lg:w-[310px]">
         <WeatherIndicator weatherId={weatherId} />
       </div>
     </div>
