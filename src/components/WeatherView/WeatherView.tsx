@@ -1,4 +1,7 @@
-import { GlobeAsiaAustraliaIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowPathIcon,
+  GlobeAsiaAustraliaIcon,
+} from "@heroicons/react/24/outline";
 import { Coordinate, Weather } from "../../api";
 import WeatherIndicator from "./WeatherIndicator";
 
@@ -19,8 +22,14 @@ function WeatherView({
 
   return (
     <div className="text-secondary">
-      {hasNoData && (
-        <SearchPrompt
+      {isFetching && (
+        <Prompt
+          title="Satellites are working... please wait."
+          icon={<ArrowPathIcon className="stroke-[0.5px]" />}
+        />
+      )}
+      {hasNoData && !isFetching && (
+        <Prompt
           title="To begin, search a city or country for the current weather."
           icon={<GlobeAsiaAustraliaIcon className="stroke-[0.5px]" />}
         />
@@ -32,13 +41,7 @@ function WeatherView({
   );
 }
 
-function SearchPrompt({
-  title,
-  icon,
-}: {
-  title: string;
-  icon: React.ReactElement;
-}) {
+function Prompt({ title, icon }: { title: string; icon: React.ReactElement }) {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-y-4">
       <div className="text-center text-2xl">{title}</div>
