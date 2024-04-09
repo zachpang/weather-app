@@ -18,7 +18,7 @@ function WeatherView({
   const hasNoData = coordinate === null || weather === null;
 
   return (
-    <div className="text-secondary bg-white-alpha-50 h-full rounded-xl border-0 p-8">
+    <div className="text-secondary">
       {hasNoData && (
         <SearchPrompt
           title="To begin, search a city or country for the current weather."
@@ -40,9 +40,9 @@ function SearchPrompt({
   icon: React.ReactElement;
 }) {
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-y-8">
-      <div className="text-3xl">{title}</div>
-      <div className="size-1/3">{icon}</div>
+    <div className="flex h-full flex-col items-center justify-center gap-y-4">
+      <div className="text-center text-2xl">{title}</div>
+      <div className="size-40">{icon}</div>
     </div>
   );
 }

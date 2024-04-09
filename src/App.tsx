@@ -1,16 +1,39 @@
+import { useState } from "react";
 import SearchBar, { useSearchBar } from "./components/SearchBar";
+import SearchHistory, { useSearchHistory } from "./components/SearchHistory";
 import WeatherView from "./components/WeatherView";
+import useLocalStorage from "./hooks/useLocalStorage";
+import { Coordinate, Weather } from "./api";
+import { SearchHistoryItem } from "./components/SearchHistory/SearchHistory";
+import useWeatherQuery from "./api/useWeatherQuery";
 
 function App() {
-  const {
-    value,
-    handleChange,
-    handleSubmit,
-    error,
-    isFetching,
-    coordinate,
-    weather,
-  } = useSearchBar();
+  const [items, setItems] = useLocalStorage<SearchHistoryItem[]>(
+    "searchHistoryItems",
+    [],
+  );
+
+  // Data objects used in WeatherView
+  const [coordinate, setCoordinate] = useState<Coordinate | null>(() => {
+    return items.length ? items[0].coordinate : null;
+  });
+  const [weather, setWeather] = useState<Weather | null>(() => {
+    return items.length ? items[0].weather : null;
+  });
+
+  const { performSearch, error, isFetching } = useWeatherQuery(
+    items,
+    setItems,
+    setCoordinate,
+    setWeather,
+  );
+
+  const { value, handleChange, handleSubmit } = useSearchBar(performSearch);
+  const { handleViewItem, handleDeleteItem } = useSearchHistory(
+    items,
+    setItems,
+    performSearch,
+  );
 
   return (
     <>
@@ -23,13 +46,20 @@ function App() {
               onSubmit={handleSubmit}
             />
           </header>
-          <main className="flex-1">
-            <WeatherView
-              weather={weather}
-              coordinate={coordinate}
-              error={error}
-              isFetching={isFetching}
-            />
+          <main className="bg-white-alpha-50 flex-1 rounded-xl border-0 p-8">
+            <div className="flex h-full flex-col gap-y-4">
+              <WeatherView
+                weather={weather}
+                coordinate={coordinate}
+                error={error}
+                isFetching={isFetching}
+              />
+              <SearchHistory
+                items={items}
+                onViewItem={handleViewItem}
+                onDeleteItem={handleDeleteItem}
+              />
+            </div>
           </main>
         </div>
       </div>
