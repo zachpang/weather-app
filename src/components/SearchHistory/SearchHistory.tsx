@@ -21,18 +21,20 @@ function SearchHistory({
 }: SearchHistoryProps) {
   return (
     <div className="bg-white-alpha-50 flex-auto rounded-xl border-0 p-4">
-      <h2 className="text-primary font-semibold">Search History</h2>
-      {items.map((item) => (
-        <Item
-          key={item.id}
-          id={item.id}
-          city={item.coordinate.city}
-          countryCode={item.coordinate.countryCode}
-          dateTime={item.weather.dateTime}
-          onViewItem={onViewItem}
-          onDeleteItem={onDeleteItem}
-        />
-      ))}
+      <h2 className="text-primary mb-4 font-semibold">Search History</h2>
+      <div className="h-[44vh] overflow-y-auto">
+        {items.map((item) => (
+          <Item
+            key={item.id}
+            id={item.id}
+            city={item.coordinate.city}
+            countryCode={item.coordinate.countryCode}
+            dateTime={item.weather.dateTime}
+            onViewItem={onViewItem}
+            onDeleteItem={onDeleteItem}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -55,7 +57,7 @@ function Item({
   onDeleteItem,
 }: ItemProps) {
   return (
-    <div className="bg-white-alpha-50 text-primary my-4 flex justify-between rounded-xl border-0 p-3 leading-loose">
+    <div className="bg-white-alpha-50 text-primary mb-4 flex justify-between rounded-xl border-0 p-3 leading-loose">
       <span className="font-medium ">
         {city}, {countryCode}
       </span>
