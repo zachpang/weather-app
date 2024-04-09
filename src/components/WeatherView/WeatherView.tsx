@@ -1,6 +1,7 @@
 import {
   ArrowPathIcon,
   GlobeAsiaAustraliaIcon,
+  HandRaisedIcon,
 } from "@heroicons/react/24/outline";
 import { Coordinate, Weather } from "../../api";
 import WeatherIndicator from "./WeatherIndicator";
@@ -22,13 +23,19 @@ function WeatherView({
 
   return (
     <div className="text-secondary">
-      {isFetching && (
+      {hasNoData && isFetching && (
         <Prompt
           title="Satellites are working... please wait."
           icon={<ArrowPathIcon className="stroke-[0.5px]" />}
         />
       )}
-      {hasNoData && !isFetching && (
+      {error && (
+        <Prompt
+          title={error}
+          icon={<HandRaisedIcon className="stroke-[0.5px]" />}
+        />
+      )}
+      {hasNoData && !isFetching && !error && (
         <Prompt
           title="To begin, search a city or country for the current weather."
           icon={<GlobeAsiaAustraliaIcon className="stroke-[0.5px]" />}
